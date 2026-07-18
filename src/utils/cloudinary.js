@@ -13,7 +13,7 @@ import path from "path"
     });
     
 const uploadOnCloudinary= async (localFilePath)=>{
-    console.log(localFilePath);
+    //console.log(localFilePath);
     
     try {
         if(!localFilePath) return null;
@@ -29,7 +29,9 @@ const uploadOnCloudinary= async (localFilePath)=>{
         //file has been uploaded successfully
        
         
-        console.log("file uploaded on cloudinary!!",response.url);
+        console.log("file uploaded on cloudinary!!");           //response.url can be printed
+        fs.unlinkSync(localFilePath)
+        
         return response
     } catch (error) {
         fs.unlinkSync(localFilePath)
