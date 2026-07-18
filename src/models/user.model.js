@@ -35,7 +35,7 @@ const userSchema=new mongoose.Schema(
         },
         coverImage:{
             type:String,//cloudinary url
-            required:true,
+            
 
         },
         watchHistory:{
@@ -53,11 +53,12 @@ const userSchema=new mongoose.Schema(
     },{timestamps:true}
 )
 
-userSchema.pre("save",async function(next){
+userSchema.pre("save",async function(){
     if(!this.isModified("password")) return next()
 
-    this.password=await bcrypt.hash(this.password, 10)
-    next()
+    this.password=await bcrypt.hash(this.password, 10);
+
+  
 } )
 
 userSchema.methods.isPasswordCorrect=async function (password) {
@@ -68,7 +69,7 @@ userSchema.methods.generateAccessToken=async function () {
             _id:this._id,
             email:this.email,
             username:this.username,
-            fullname=this.fullname,
+            fullname:this.fullname,
         },
         process.env.ACCESS_TOKEN_SECRET,
         {
