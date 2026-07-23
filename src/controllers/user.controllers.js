@@ -1,5 +1,5 @@
 import { User } from "../models/user.model.js"
-import { uploadOnCloudinary } from  "../utils/cloudinary.js"
+import { deleteFromCloudinary, uploadOnCloudinary } from  "../utils/cloudinary.js"
 import { ApiResponse } from "../utils/apiResponse.js"
 import {asyncHandler} from "../utils/asyncHandler.js"
 import {ApiError} from "../utils/apierror.js"
@@ -298,13 +298,17 @@ const updateUserAvatar = asyncHandler(async(req,res) => {
     if(!avatarLocalpath){
         throw ApiError(400,"avatar files is missing!!")
     }
+    //const oldDelete = await deleteFromCloudinary(req.user.avatar.url)
+    // if(!oldDelete){
+    //     const avatar = await uploadOnCloudinary(avatarLocalpath)
 
+    // }
     const avatar = await uploadOnCloudinary(avatarLocalpath)
 
     if(!avatar){
         throw new ApiError(400,"something went wrong while uploading the avatar file!!")
     }
-
+    
     const user = await User.findByIdAndUpdate(
         req.user._id,
         {
@@ -360,6 +364,8 @@ const updateUserCoverImage = asyncHandler(async(req,res) => {
         )
     )
 })
+
+
 
 export {
     registerUser,

@@ -29,6 +29,7 @@ const userSchema=new mongoose.Schema(
             index:true,
         },
         avatar:{
+            
             type:String,//cloudinary url
             required:true,
 
